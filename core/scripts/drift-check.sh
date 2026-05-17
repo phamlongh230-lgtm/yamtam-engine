@@ -104,10 +104,19 @@ if [[ -f "$README" ]]; then
         "$PROJECT_ROOT/core" \
         "$PROJECT_ROOT/gates" \
         "$PROJECT_ROOT/docs" \
+        "$PROJECT_ROOT/.out-of-scope" \
+        "$PROJECT_ROOT/.claude-plugin" \
+        "$PROJECT_ROOT/.github" \
         2>/dev/null | wc -l || true)
 
+      # Also check for matching directory/file names at project root
       if [[ "${hits:-0}" -eq 0 ]]; then
-        emit_issue "OVERCLAIM: README.md mentions '$search_term' but grep finds no evidence in core/ gates/ docs/"
+        root_hits=$(find "$PROJECT_ROOT" -maxdepth 2 -name "*${search_term}*" 2>/dev/null | wc -l || true)
+        hits="${root_hits:-0}"
+      fi
+
+      if [[ "${hits:-0}" -eq 0 ]]; then
+        emit_issue "OVERCLAIM: README.md mentions '$search_term' but grep finds no evidence in core/ gates/ docs/ .out-of-scope/ .claude-plugin/ .github/"
       fi
     fi
   done < "$README"
