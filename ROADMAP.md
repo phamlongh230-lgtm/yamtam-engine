@@ -8,9 +8,15 @@ This is a personal agent operating system. Features are added when a real proble
 
 ## Completed ✅
 
+### v1.3.3 — 2026-05-17
+
+- [x] **Tags on all 4 seed facts** — fact-confidence-rule, fact-hook-exit-codes, fact-scope-boundary, fact-truth-gate; `/memory --tag` now returns real results
+- [x] **commit-gate.sh test seam + 8 tests** — `COMMIT_GATE_TEST_STAGED` env var; 42 total tests (was 34)
+- [x] **Release pack** — `releases/yamtam-engine-v1.3.3-fixed.zip` — 133 files, 208K
+
 ### v1.3.2 — 2026-05-17
 
-- [x] **L4 Action Gate formalization** — see Planned section
+- [x] **L4 Action Gate formalization** — `commit-gate.sh` (L2 advisory) + `deploy-gate.sh` (L4 block)
 - [x] **34 tests passing** (was 26)
 
 ### v1.3.1 — 2026-05-17
