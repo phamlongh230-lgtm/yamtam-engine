@@ -209,6 +209,34 @@ test_hook "cost-guard.sh" "Bypass suppresses block" \
   '{"tool_name":"Bash","tool_input":{"command":"grep -r password ."}}' \
   "allow" "YAMTAM_COST_GUARD_BYPASS" "1"
 
+# 7. deploy-gate.sh
+echo ""
+echo "--- deploy-gate.sh ---"
+test_hook "deploy-gate.sh" "Block gh workflow run" \
+  '{"tool_name":"Bash","tool_input":{"command":"gh workflow run deploy.yml"}}' \
+  "deny"
+test_hook "deploy-gate.sh" "Block kubectl apply" \
+  '{"tool_name":"Bash","tool_input":{"command":"kubectl apply -f k8s/deployment.yaml"}}' \
+  "deny"
+test_hook "deploy-gate.sh" "Block docker push" \
+  '{"tool_name":"Bash","tool_input":{"command":"docker push myapp:latest"}}' \
+  "deny"
+test_hook "deploy-gate.sh" "Block gcloud run deploy" \
+  '{"tool_name":"Bash","tool_input":{"command":"gcloud run deploy myservice --image gcr.io/proj/myapp"}}' \
+  "deny"
+test_hook "deploy-gate.sh" "Block fly deploy" \
+  '{"tool_name":"Bash","tool_input":{"command":"fly deploy"}}' \
+  "deny"
+test_hook "deploy-gate.sh" "Allow safe Bash" \
+  '{"tool_name":"Bash","tool_input":{"command":"ls -la"}}' \
+  "allow"
+test_hook "deploy-gate.sh" "Allow Read tool" \
+  '{"tool_name":"Read","tool_input":{"file_path":"README.md"}}' \
+  "allow"
+test_hook "deploy-gate.sh" "Bypass suppresses block" \
+  '{"tool_name":"Bash","tool_input":{"command":"kubectl apply -f k8s/deployment.yaml"}}' \
+  "allow" "YAMTAM_DEPLOY_APPROVED" "1"
+
 echo ""
 echo "=== Summary ==="
 echo "Total tests: $TOTAL_COUNT"

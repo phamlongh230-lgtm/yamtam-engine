@@ -2,7 +2,7 @@
 
 How to wire all YAMTAM hooks into a target project's Claude Code `settings.json`.
 
-**Version:** 1.3.0
+**Version:** 1.3.1
 **Reference:** Claude Code hooks documentation — hooks fire on tool events and
 receive a JSON payload on stdin. Exit 0 = allow, JSON + exit 2 = block.
 
@@ -23,6 +23,8 @@ create or merge this into your target project's `.claude/settings.json`:
           { "type": "command", "command": "bash .claude/hooks/guard-destructive.sh" },
           { "type": "command", "command": "bash .claude/hooks/db-protect.sh" },
           { "type": "command", "command": "bash .claude/hooks/api-destruct-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/deploy-gate.sh" },
+          { "type": "command", "command": "bash .claude/hooks/commit-gate.sh" },
           { "type": "command", "command": "bash .claude/hooks/cost-guard.sh" },
           { "type": "command", "command": "bash .claude/hooks/code-freeze.sh" },
           { "type": "command", "command": "bash .claude/hooks/token-scope-guard.sh" }
@@ -88,10 +90,12 @@ create or merge this into your target project's `.claude/settings.json`:
 | Hook | Action | Bypass |
 |------|--------|--------|
 | `guard-destructive.sh` | Blocks `rm -rf`, `git push --force`, `git reset --hard`, direct push to main | — |
-| `db-protect.sh` | Blocks `prisma migrate reset`, prod `DATABASE_URL`, `DROP TABLE` | `YAMTAM_PROD_APPROVED=1` |
-| `api-destruct-guard.sh` | Blocks destructive HTTP (DELETE/PATCH) and GraphQL mutations against production URLs | `YAMTAM_PROD_APPROVED=1` |
+| `db-protect.sh` | Blocks `prisma migrate reset`, prod `DATABASE_URL`, `DROP TABLE`, Vercel/Render/Fly prod deploys | `YAMTAM_PROD_APPROVED=1` |
+| `api-destruct-guard.sh` | Blocks destructive HTTP (DELETE) and GraphQL mutations against production URLs | `YAMTAM_PROD_APPROVED=1` |
+| `deploy-gate.sh` | Blocks `gh workflow run`, `kubectl apply`, `docker push`, `gcloud run deploy`, `fly deploy`, Heroku ops | `YAMTAM_DEPLOY_APPROVED=1` |
+| `commit-gate.sh` | Warns on `git commit` when staged files include product paths (cross-scope) | `YAMTAM_SCOPE_OK=1` |
 | `cost-guard.sh` | Blocks full E2E in Codespaces, unscoped repo scans; warns on long builds | `YAMTAM_COST_GUARD_BYPASS=1` |
-| `code-freeze.sh` | Blocks commits/pushes during active code freeze | `YAMTAM_FREEZE_OVERRIDE=1` |
+| `code-freeze.sh` | Blocks all writes during active code freeze | — |
 | `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YAMTAM_TOKEN_SCOPE_OK=1` |
 
 ### PreToolUse — Read, Grep, Glob
@@ -152,7 +156,8 @@ If you want only the hard safety blocks without advisory hooks:
         "hooks": [
           { "type": "command", "command": "bash .claude/hooks/guard-destructive.sh" },
           { "type": "command", "command": "bash .claude/hooks/db-protect.sh" },
-          { "type": "command", "command": "bash .claude/hooks/api-destruct-guard.sh" }
+          { "type": "command", "command": "bash .claude/hooks/api-destruct-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/deploy-gate.sh" }
         ]
       }
     ],

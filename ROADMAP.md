@@ -8,6 +8,11 @@ This is a personal agent operating system. Features are added when a real proble
 
 ## Completed ✅
 
+### v1.3.2 — 2026-05-17
+
+- [x] **L4 Action Gate formalization** — see Planned section
+- [x] **34 tests passing** (was 26)
+
 ### v1.3.1 — 2026-05-17
 
 - [x] **Tag support for L1 memory** — `tags` field in SCHEMA.md, `--tag TAG` filter in `search-facts.sh`, tag prompt in `add-fact.sh`, `/memory --tag` documented
@@ -51,8 +56,11 @@ This is a personal agent operating system. Features are added when a real proble
 - [x] **L1 memory search improvements** — tag support shipped in v1.3.1; fuzzy match not yet needed
   - Tags: `--tag TAG` filter, `add-fact.sh` prompts for tags, displayed in search output
 
-- [ ] **L4 Action Gate formalization** — current hooks cover ~70%, formalize the rest
-  - Missing: commit-level L2 gate, deploy-level L4 gate beyond db-protect
+- [x] **L4 Action Gate formalization** — shipped in v1.3.2
+  - `commit-gate.sh` — L2 advisory: warns on cross-scope commits
+  - `deploy-gate.sh` — L4 block: gh/kubectl/docker/gcloud/fly/heroku; 8 new tests
+  - `action_gate.md` updated with full coverage table (L0–L5)
+  - `HOOK_WIRING.md` updated: v1.3.1, both hooks wired in all presets
 
 - [ ] **L2 memory tier** — session-scoped facts that don't persist across sessions
   - Only if L1 proves insufficient alone

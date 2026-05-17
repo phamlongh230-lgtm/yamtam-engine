@@ -142,12 +142,27 @@ I am stopping here. Please confirm:
 
 ## Currently Enforced Via
 
-- AI prompt template — see `prompts/system_prompt.md`
-- Runtime hooks (when pack imported):
-  - `db-protect.sh` — blocks DB hard blocks
-  - `guard-destructive.sh` — blocks shell hard blocks
-  - `api-destruct-guard.sh` — blocks destructive API/HTTP
-  - `token-scope-guard.sh` — warns on secret reads
+Runtime hooks in `core/hooks/` (active — not placeholders):
 
-In this scaffold, runtime hooks are placeholder. Enforcement is prompt-only
-until the v1.2.9-fixed pack is imported into `core/`.
+| Hook | Trigger | Level | Mode |
+|------|---------|-------|------|
+| `guard-destructive.sh` | PreToolUse | L3-L5 | Block |
+| `db-protect.sh` | PreToolUse | L4-L5 | Block |
+| `api-destruct-guard.sh` | PreToolUse | L4-L5 | Block |
+| `deploy-gate.sh` | PreToolUse | L4 | Block |
+| `commit-gate.sh` | PreToolUse | L2 | Warn |
+| `scope-guard.sh` | PreToolUse | L1 | Warn |
+| `context-gate.sh` | PreToolUse | L1 | Block (if no prior read) |
+| `cost-guard.sh` | PreToolUse | L0+ | Block/Warn |
+| `token-scope-guard.sh` | PreToolUse | L0 | Warn |
+| `truth-gate-guard.sh` | Stop | L3 | Warn |
+| `validate-completion.sh` | Stop | L1 | Warn |
+| `code-freeze.sh` | PreToolUse | All | Block (when ON) |
+
+**Coverage by gate level:**
+- L0 (read): advisory via `token-scope-guard.sh`
+- L1 (local write): `scope-guard.sh` (warn), `context-gate.sh` (block if unread), `commit-gate.sh` (warn at commit)
+- L2 (commit): `commit-gate.sh` warns on cross-scope commits
+- L3 (push): `guard-destructive.sh` blocks force push, push to main
+- L4 (deploy): `deploy-gate.sh` (gh/kubectl/docker/gcloud/fly/heroku), `db-protect.sh` (vercel/render/prisma prod)
+- L5 (prod data): `db-protect.sh`, `api-destruct-guard.sh`
