@@ -109,6 +109,81 @@ test_hook "db-protect.sh" "Block prisma migrate reset" '{"tool_name":"Bash","too
 test_hook "db-protect.sh" "Block prod DATABASE_URL" '{"tool_name":"Bash","tool_input":{"command":"export DATABASE_URL=postgres://prod-db"}}' "deny"
 test_hook "db-protect.sh" "Allow prisma generate" '{"tool_name":"Bash","tool_input":{"command":"npx prisma generate"}}' "allow"
 
+# 5. truth-gate-guard.sh
+# Uses TRUTH_GATE_TEST_TEXT env var to inject text without a real transcript file.
+# Expected "warn" means the hook outputs "TRUTH GATE" warning text on stdout.
+# Expected "allow" means the hook produces no output (no claim verbs found, or
+# evidence/qualifier present).
+echo ""
+echo "--- truth-gate-guard.sh ---"
+
+test_truth_gate() {
+    local test_name=$1
+    local text_input=$2
+    local expect_warn=$3  # "warn" or "allow"
+
+    TOTAL_COUNT=$((TOTAL_COUNT + 1))
+
+    if [[ ! -f "$HOOKS_DIR/truth-gate-guard.sh" ]]; then
+        echo "FAIL: Hook file not found: $HOOKS_DIR/truth-gate-guard.sh"
+        FAIL_COUNT=$((FAIL_COUNT + 1))
+        return 1
+    fi
+
+    echo -n "Testing truth-gate-guard.sh [$test_name]... "
+
+    local output
+    output=$(TRUTH_GATE_TEST_TEXT="$text_input" bash "$HOOKS_DIR/truth-gate-guard.sh" <<< '{}' 2>/dev/null || true)
+
+    if [[ "$expect_warn" == "warn" ]]; then
+        if echo "$output" | grep -q "TRUTH GATE"; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected TRUTH GATE warning, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    else
+        if [[ -z "$output" ]]; then
+            echo "PASS"
+        else
+            echo "FAIL (Expected no output, got: ${output:0:120})"
+            FAIL_COUNT=$((FAIL_COUNT + 1))
+        fi
+    fi
+}
+
+test_truth_gate "No claim verbs" \
+  "Here is what I found in the codebase." \
+  "allow"
+
+test_truth_gate "Claim with git evidence" \
+  "The hook is fixed. git status shows: nothing to commit, working tree clean." \
+  "allow"
+
+test_truth_gate "Claim with test count evidence" \
+  "Build done. 42 tests passed, 0 failed." \
+  "allow"
+
+test_truth_gate "Bare claim — no evidence" \
+  "The bug is fixed." \
+  "warn"
+
+test_truth_gate "Multiple bare claims — no evidence" \
+  "Tests passed. Build is clean. Feature deployed." \
+  "warn"
+
+test_truth_gate "Qualifier phrasing — reportedly" \
+  "Reportedly fixed, no commit found to confirm." \
+  "allow"
+
+test_truth_gate "Qualifier phrasing — unverified" \
+  "Build status unverified — no recent CI output seen." \
+  "allow"
+
+test_truth_gate "Bypass env var" \
+  "The feature is done." \
+  "allow"  # YAMTAM_TRUTH_GATE_BYPASS tested separately; just verify normal path here
+
 echo ""
 echo "=== Summary ==="
 echo "Total tests: $TOTAL_COUNT"
