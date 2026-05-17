@@ -4,7 +4,8 @@
 Hook layer, safety guards, and workflow rules for AI assistants
 (Claude Code, Manus) operating on arbitrary codebases.
 
-**Version:** v1.2.9-fixed (scaffold — release pack pending)
+**Scaffold version:** 1.0
+**Targets pack:** YAMTAM ENGINE v1.2.9-fixed (to be imported into `core/`)
 **Status:** Documentation-first scaffold. Hook source files not yet imported.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
@@ -35,22 +36,30 @@ A pack of bash hooks, scripts, and tests that you drop into a project's
 ```txt
 yamtam-engine/
 ├── README.md              ← you are here
+├── AGENTS.md              ← entry point for AI assistants (read first if AI)
 ├── CHANGELOG.md
 ├── ROADMAP.md
 ├── MANIFEST.json
+├── LICENSE
 ├── .gitignore
 │
 ├── core/                  ← hook source (PLACEHOLDER, see below)
 │   ├── hooks/
 │   ├── scripts/
 │   └── tests/
+│       └── hooks/         ← canonical location for run-hook-tests.sh
 │
 ├── gates/
-│   └── truth_gate.md      ← L3 spec, prompt-enforced
+│   ├── truth_gate.md      ← L3 spec, prompt-enforced
+│   └── action_gate.md     ← L4 spec, prompt-enforced
+│
+├── prompts/
+│   └── system_prompt.md   ← copy-paste prompt block for AI operators
 │
 ├── docs/
 │   ├── SEPARATION.md      ← YAMTAM vs target product boundary
-│   └── RUNBOOK.md         ← apply YAMTAM to any project
+│   ├── RUNBOOK.md         ← apply YAMTAM to any project
+│   └── AGENT_BEHAVIOR.md  ← good vs bad behavior examples
 │
 └── releases/              ← versioned packs (empty until first release)
 ```
@@ -77,7 +86,11 @@ Truth Gate (gates/truth_gate.md) is enforced via AI prompt only.
 
 See `docs/RUNBOOK.md` for full apply guide.
 
-Quick version:
+> Once a release pack has been cut (see RUNBOOK §"Cut a New YAMTAM Release"),
+> the `releases/` folder will contain the pack zip. At scaffold stage, this
+> folder is empty.
+
+Quick version (after a release pack exists):
 ```bash
 unzip releases/yamtam-engine-vX.Y.Z-fixed.zip -d /path/to/target-project/.claude/
 cd /path/to/target-project

@@ -1,14 +1,18 @@
 # YAMTAM ENGINE — Changelog
 
-All notable changes are documented here.
+All notable changes to YAMTAM ENGINE release packs are documented here.
+
+> **Note:** This changelog tracks **release pack** events. This scaffold repo
+> does not enforce any release item at runtime until the pack's `hooks/`,
+> `scripts/`, and `tests/` are imported into `core/`.
 
 ---
 
 ## v1.2.9-fixed — Hook Test Suite & Release QA
 *2026-05-07*
 
-- Added hook test suite with 13 automated tests across 4 hooks.
-- All tests PASS: `api-destruct-guard`, `token-scope-guard`, `guard-destructive`, `db-protect`.
+- Added hook test suite with 13 automated tests across 4 hooks (in pack).
+- Test suite reports 13/13 PASS when run from imported pack.
 - Added `verify-claude-pack.js` for pack integrity check.
 - Documented known limitations explicitly.
 - Fixed `RELEASE_CHECKLIST.md` to match v1.2.9 scope (not v1.2 template).
