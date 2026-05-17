@@ -8,12 +8,14 @@ This is a personal agent operating system. Features are added when a real proble
 
 ## Completed ✅
 
-- [x] Core hook layer (v1.2.x)
-- [x] Hook test suite 13/13 PASS (v1.2.9-fixed)
-- [x] Known limitations documented
-- [x] Incident defense (Replit, PocketOS)
-- [x] Handoff mode
-- [x] Audit log
+> **Note:** Items below were delivered in the external **YAMTAM ENGINE v1.2.9-fixed** release pack, cut before this scaffold repo existed. This scaffold does not enforce them at runtime until that pack is imported into `core/`.
+
+- [x] Core hook layer (v1.2.x) — in v1.2.9-fixed pack
+- [x] Hook test suite 13/13 PASS — in v1.2.9-fixed pack, not in this scaffold
+- [x] Known limitations documented — in v1.2.9-fixed pack
+- [x] Incident defense (Replit, PocketOS) — in v1.2.9-fixed pack
+- [x] Handoff mode — in v1.2.9-fixed pack
+- [x] Audit log — in v1.2.9-fixed pack
 
 ---
 
@@ -23,7 +25,7 @@ This is a personal agent operating system. Features are added when a real proble
   - Spec: `gates/truth_gate.md`
   - Status: design complete, not yet enforced via hook
 
-- [ ] **YAMTAM ↔ JNMT separation** — move YAMTAM to standalone repo
+- [ ] **YAMTAM standalone repo separation** — move YAMTAM out of any host product repo
   - Status: in progress
 
 ---
@@ -37,7 +39,7 @@ This is a personal agent operating system. Features are added when a real proble
 - [ ] **Status Drift Detector** — catch TODO/git/memory desync
   - Prerequisite: stable L1 Atomic Memory
 
-- [ ] **Multi-project support** — apply YAMTAM pack to repos beyond JNMT
+- [ ] **Multi-project support** — apply YAMTAM pack to any target product repo
   - Prerequisite: YAMTAM repo standalone
 
 - [ ] **L4 Action Gate formalization** — current hooks cover ~60%, formalize the rest
