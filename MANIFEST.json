@@ -3,13 +3,15 @@
   "version": "1.2.9-fixed",
   "scaffold_version": "1.0",
   "release_date": null,
-  "manifest_updated": "2026-05-16",
-  "description": "Personal agent operating system. Hook layer + safety guards + workflow rules for AI assistants. Documentation-first scaffold.",
-  "status": "scaffold",
-  "scaffold_notes": [
-    "This is a documentation-first scaffold.",
-    "Hook source files (core/hooks, core/scripts, core/tests) are placeholders.",
-    "Import hooks from YAMTAM_ENGINE_v1.2.9-fixed pack before cutting a real release.",
+  "manifest_updated": "2026-05-17",
+  "description": "Personal agent operating system. Hook layer + safety guards + workflow rules for AI assistants.",
+  "status": "runtime-imported",
+  "import_notes": [
+    "Phase 1 safe import completed 2026-05-17 from jnmt-claude-code-agenl-21 workshop repo.",
+    "Excluded: react-native-developer.md, copywriter-seo.md, settings.json (pending content review).",
+    "Excluded: memory/checkpoint/brain-dump/handoff commands, hooks, and scripts.",
+    "Excluded: all JNMT product code, secrets, state logs, and zip files.",
+    "Runtime assets present in core/. Runtime enforcement depends on applying the pack to a target project.",
     "Truth Gate (L3) is currently enforced via AI prompt only, not via runtime hook."
   ],
   "components": {
@@ -25,31 +27,169 @@
       "prompts/system_prompt.md",
       "docs/SEPARATION.md",
       "docs/RUNBOOK.md",
-      "docs/AGENT_BEHAVIOR.md"
+      "docs/AGENT_BEHAVIOR.md",
+      "docs/AGENT_INCIDENT_DEFENSE.md",
+      "docs/YAMTAM_ENGINE_v1.2.9_Known_Limitations.md"
     ],
-    "hooks": {
-      "status": "placeholder",
-      "expected_files": [
-        "core/hooks/api-destruct-guard.sh",
-        "core/hooks/token-scope-guard.sh",
-        "core/hooks/guard-destructive.sh",
-        "core/hooks/db-protect.sh"
+    "agents": {
+      "status": "imported",
+      "count": 19,
+      "actual_present": [
+        "core/agents/agent-gardener.md",
+        "core/agents/backend-developer.md",
+        "core/agents/cicd-engineer.md",
+        "core/agents/config-doctor.md",
+        "core/agents/context-synthesizer.md",
+        "core/agents/database-expert.md",
+        "core/agents/docker-expert.md",
+        "core/agents/documentation-writer.md",
+        "core/agents/frontend-developer.md",
+        "core/agents/project-manager.md",
+        "core/agents/prompt-firewall.md",
+        "core/agents/qa-engineer.md",
+        "core/agents/spec-executor.md",
+        "core/agents/spec-planner.md",
+        "core/agents/spec-verifier.md",
+        "core/agents/systems-architect.md",
+        "core/agents/token-guard.md",
+        "core/agents/tool-router.md",
+        "core/agents/ui-ux-designer.md"
       ],
-      "actual_present": []
+      "review_later": [
+        "react-native-developer.md",
+        "copywriter-seo.md"
+      ]
+    },
+    "commands": {
+      "status": "imported",
+      "count": 21,
+      "actual_present": [
+        "core/commands/audit.md",
+        "core/commands/budget-mode.md",
+        "core/commands/challenge.md",
+        "core/commands/debug.md",
+        "core/commands/fix.md",
+        "core/commands/generate-coverage.md",
+        "core/commands/init-claude.md",
+        "core/commands/mcp-audit.md",
+        "core/commands/orchestrate.md",
+        "core/commands/release.md",
+        "core/commands/resume.md",
+        "core/commands/review.md",
+        "core/commands/route.md",
+        "core/commands/run-e2e.md",
+        "core/commands/spec.md",
+        "core/commands/start.md",
+        "core/commands/status.md",
+        "core/commands/sync-template.md",
+        "core/commands/v10-audit.md",
+        "core/commands/v10-fix.md",
+        "core/commands/verify-pack.md"
+      ]
+    },
+    "hooks": {
+      "status": "imported",
+      "count": 20,
+      "actual_present": [
+        "core/hooks/api-destruct-guard.sh",
+        "core/hooks/audit-log.sh",
+        "core/hooks/auto-kill-stuck-tasks.sh",
+        "core/hooks/auto-qa-reset.sh",
+        "core/hooks/auto-qa-trigger.sh",
+        "core/hooks/code-freeze.sh",
+        "core/hooks/context-gate-log.sh",
+        "core/hooks/context-gate.sh",
+        "core/hooks/context-monitor.js",
+        "core/hooks/cost-guard.sh",
+        "core/hooks/db-protect.sh",
+        "core/hooks/format-on-write.sh",
+        "core/hooks/gitnexus-hook.js",
+        "core/hooks/guard-destructive.sh",
+        "core/hooks/log-agent.sh",
+        "core/hooks/rbac-guard.sh",
+        "core/hooks/telemetry-sender.sh",
+        "core/hooks/token-scope-guard.sh",
+        "core/hooks/tool-attention.js",
+        "core/hooks/validate-completion.sh"
+      ]
     },
     "scripts": {
-      "status": "placeholder",
-      "expected_files": [
-        "core/scripts/verify-claude-pack.js"
-      ],
-      "actual_present": []
+      "status": "imported",
+      "count": 10,
+      "actual_present": [
+        "core/scripts/budget-mode.sh",
+        "core/scripts/code-freeze.sh",
+        "core/scripts/generate-coverage-report.sh",
+        "core/scripts/hook-health.js",
+        "core/scripts/run-e2e-tests.sh",
+        "core/scripts/update-skills-lock.sh",
+        "core/scripts/verify-claude-pack.js",
+        "core/scripts/verify-claude-pack.sh",
+        "core/scripts/verify-skills-lock.sh",
+        "core/scripts/view-audit.sh"
+      ]
     },
     "tests": {
-      "status": "placeholder",
-      "expected_files": [
+      "status": "imported",
+      "count": 1,
+      "actual_present": [
         "core/tests/hooks/run-hook-tests.sh"
+      ]
+    },
+    "rules": {
+      "status": "imported",
+      "count": 3,
+      "actual_present": [
+        "core/rules/migrations.md",
+        "core/rules/tests.md",
+        "core/rules/typescript.md"
+      ]
+    },
+    "templates": {
+      "status": "imported",
+      "count": 11,
+      "actual_present": [
+        "core/templates/CLAUDE.md",
+        "core/templates/PRD.md",
+        "core/templates/README.md",
+        "core/templates/.tasks/TASK_TEMPLATE.md",
+        "core/templates/docs/content/CONTENT_STRATEGY.md",
+        "core/templates/docs/technical/API.md",
+        "core/templates/docs/technical/ARCHITECTURE.md",
+        "core/templates/docs/technical/DATABASE.md",
+        "core/templates/docs/technical/DECISIONS.md",
+        "core/templates/docs/technical/DESIGN_SYSTEM.md",
+        "core/templates/docs/user/USER_GUIDE.md"
+      ]
+    },
+    "skills": {
+      "status": "imported",
+      "count": 8,
+      "actual_present": [
+        "core/skills/gitnexus/gitnexus-cli/SKILL.md",
+        "core/skills/gitnexus/gitnexus-debugging/SKILL.md",
+        "core/skills/gitnexus/gitnexus-exploring/SKILL.md",
+        "core/skills/gitnexus/gitnexus-guide/SKILL.md",
+        "core/skills/gitnexus/gitnexus-impact-analysis/SKILL.md",
+        "core/skills/gitnexus/gitnexus-pr-review/SKILL.md",
+        "core/skills/gitnexus/gitnexus-refactoring/SKILL.md",
+        "core/skills/karpathy-guidelines/SKILL.md"
+      ]
+    },
+    "config": {
+      "status": "imported",
+      "count": 6,
+      "actual_present": [
+        "core/config/agent-routing-map.json",
+        "core/config/budget.json",
+        "core/config/hook-budget.json",
+        "core/config/mcp-tier.json",
+        "core/config/rbac.json",
+        "core/config/skills-lock.json"
       ],
-      "actual_present": []
+      "review_later": [
+        "settings.json"
+      ]
     },
     "releases": {
       "status": "empty",
