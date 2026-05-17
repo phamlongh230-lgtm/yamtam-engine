@@ -1,0 +1,178 @@
+# YAMTAM ENGINE — Hook Wiring Guide
+
+How to wire all YAMTAM hooks into a target project's Claude Code `settings.json`.
+
+**Version:** 1.3.0
+**Reference:** Claude Code hooks documentation — hooks fire on tool events and
+receive a JSON payload on stdin. Exit 0 = allow, JSON + exit 2 = block.
+
+---
+
+## Quick start
+
+After applying the YAMTAM pack (`unzip yamtam-engine-v1.3.0-fixed.zip -d .claude/`),
+create or merge this into your target project's `.claude/settings.json`:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/guard-destructive.sh" },
+          { "type": "command", "command": "bash .claude/hooks/db-protect.sh" },
+          { "type": "command", "command": "bash .claude/hooks/api-destruct-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/cost-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/code-freeze.sh" },
+          { "type": "command", "command": "bash .claude/hooks/token-scope-guard.sh" }
+        ]
+      },
+      {
+        "matcher": "Read|Grep|Glob",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/token-scope-guard.sh" }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/context-gate.sh" },
+          { "type": "command", "command": "bash .claude/hooks/scope-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/format-on-write.sh" }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/rbac-guard.sh" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/context-gate-log.sh" }
+        ]
+      },
+      {
+        "matcher": ".*",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/audit-log.sh" },
+          { "type": "command", "command": "bash .claude/hooks/log-agent.sh" },
+          { "type": "command", "command": "bash .claude/hooks/telemetry-sender.sh" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/truth-gate-guard.sh" },
+          { "type": "command", "command": "bash .claude/hooks/validate-completion.sh" },
+          { "type": "command", "command": "bash .claude/hooks/auto-qa-trigger.sh" },
+          { "type": "command", "command": "bash .claude/hooks/auto-kill-stuck-tasks.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Hook map
+
+### PreToolUse — Bash
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `guard-destructive.sh` | Blocks `rm -rf`, `git push --force`, `git reset --hard`, direct push to main | — |
+| `db-protect.sh` | Blocks `prisma migrate reset`, prod `DATABASE_URL`, `DROP TABLE` | `YAMTAM_PROD_APPROVED=1` |
+| `api-destruct-guard.sh` | Blocks destructive HTTP (DELETE/PATCH) and GraphQL mutations against production URLs | `YAMTAM_PROD_APPROVED=1` |
+| `cost-guard.sh` | Blocks full E2E in Codespaces, unscoped repo scans; warns on long builds | `YAMTAM_COST_GUARD_BYPASS=1` |
+| `code-freeze.sh` | Blocks commits/pushes during active code freeze | `YAMTAM_FREEZE_OVERRIDE=1` |
+| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YAMTAM_TOKEN_SCOPE_OK=1` |
+
+### PreToolUse — Read, Grep, Glob
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `token-scope-guard.sh` | Warns on reads of `.env*`, secret/token patterns | `YAMTAM_TOKEN_SCOPE_OK=1` |
+
+### PreToolUse — Write, Edit, MultiEdit
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `context-gate.sh` | Blocks edits to files not yet read this session | — |
+| `scope-guard.sh` | Warns on writes to `app/ components/ lib/ db/ .env*`… | `YAMTAM_SCOPE_OK=1` |
+| `format-on-write.sh` | Runs formatter on written files (if formatter available) | — |
+
+### PreToolUse — All tools
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `rbac-guard.sh` | Blocks tool use if agent role lacks permission (requires `config/rbac.json`) | — |
+
+### PostToolUse — Read
+
+| Hook | Action |
+|------|--------|
+| `context-gate-log.sh` | Logs read file paths to `.claude/session-read-log.txt` (feeds context-gate) |
+
+### PostToolUse — All tools
+
+| Hook | Action |
+|------|--------|
+| `audit-log.sh` | Appends tool/agent/timestamp to `.claude/state/audit.log` |
+| `log-agent.sh` | Logs agent activity to `.claude/agent-log.txt` |
+| `telemetry-sender.sh` | Writes local telemetry to `.claude/state/telemetry.jsonl` (no network) |
+
+### Stop — End of turn
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `truth-gate-guard.sh` | Warns on claim verbs without evidence in last assistant message | `YAMTAM_TRUTH_GATE_BYPASS=1` |
+| `validate-completion.sh` | Warns if implementation changed but docs/tests not updated | — |
+| `auto-qa-trigger.sh` | Signals QA agent when implementation files change | — |
+| `auto-kill-stuck-tasks.sh` | Kills tasks exceeding timeout | — |
+
+---
+
+## Minimal wiring (safety-only subset)
+
+If you want only the hard safety blocks without advisory hooks:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/guard-destructive.sh" },
+          { "type": "command", "command": "bash .claude/hooks/db-protect.sh" },
+          { "type": "command", "command": "bash .claude/hooks/api-destruct-guard.sh" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/truth-gate-guard.sh" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+---
+
+## Notes
+
+- All hook paths assume the pack is unzipped into `.claude/` (i.e. hooks live at `.claude/hooks/`).
+- Hooks run in the order listed within each event block.
+- A hook that exits non-zero with no JSON output is treated as an error, not a block — always emit valid JSON when blocking.
+- `token-scope-guard.sh` appears in both Bash and Read/Grep/Glob matchers intentionally — the hook checks tool type internally.
+- `.js` hooks (`context-monitor.js`, `tool-attention.js`, `gitnexus-hook.js`) require Node.js and must be wired with `node .claude/hooks/<hook>.js`.
