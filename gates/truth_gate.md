@@ -1,7 +1,7 @@
 # YAMTAM ENGINE — L3 Truth Gate
 
 **Version:** 1.0
-**Status:** Active spec — enforced via AI prompt template
+**Status:** Active — enforced via AI prompt template + runtime hook (core/hooks/truth-gate-guard.sh)
 **Layer:** L3 of YAMTAM Memory Pipeline
 **Purpose:** Prevent agent overclaim by requiring evidence before claim verbs.
 
@@ -105,10 +105,19 @@ Add this block to your AI prompt template:
 
 ---
 
-## Future Hook (Phase 2, not now)
+## Runtime Hook — Implemented
 
-Spec for future implementation:
-  .claude/hooks/truth-gate-guard.sh
+Hook: `core/hooks/truth-gate-guard.sh`
+Event: Stop (fires after every Claude turn)
+Mode: Non-blocking — warns via stdout, always exits 0
 
-Scans agent output for claim verbs, blocks if no evidence pattern detected.
-Currently enforced via prompt only.
+Behaviour:
+  1. Reads last assistant message from transcript_path
+  2. Scans for claim verbs (word-boundary, case-insensitive)
+  3. Allows if strong evidence patterns present (git output, test counts…)
+  4. Allows if fallback qualifiers present (reportedly / unverified…)
+  5. Warns with exact verbs found if neither condition is met
+
+Bypass:  YAMTAM_TRUTH_GATE_BYPASS=1
+Test seam: TRUTH_GATE_TEST_TEXT="<text>" (no transcript needed)
+Tests: core/tests/hooks/run-hook-tests.sh — 7 cases
