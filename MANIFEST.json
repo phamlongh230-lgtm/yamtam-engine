@@ -12,7 +12,7 @@
     "Excluded: memory/checkpoint/brain-dump/handoff commands, hooks, and scripts.",
     "Excluded: all JNMT product code, secrets, state logs, and zip files.",
     "Runtime assets present in core/. Runtime enforcement depends on applying the pack to a target project.",
-    "Truth Gate (L3) is currently enforced via AI prompt only, not via runtime hook."
+    "Truth Gate (L3) runtime hook implemented: core/hooks/truth-gate-guard.sh (Stop hook, non-blocking)."
   ],
   "components": {
     "docs": [
@@ -62,7 +62,7 @@
     },
     "commands": {
       "status": "imported",
-      "count": 21,
+      "count": 22,
       "actual_present": [
         "core/commands/audit.md",
         "core/commands/budget-mode.md",
@@ -84,12 +84,13 @@
         "core/commands/sync-template.md",
         "core/commands/v10-audit.md",
         "core/commands/v10-fix.md",
-        "core/commands/verify-pack.md"
+        "core/commands/verify-pack.md",
+        "core/commands/verify.md"
       ]
     },
     "hooks": {
       "status": "imported",
-      "count": 20,
+      "count": 21,
       "actual_present": [
         "core/hooks/api-destruct-guard.sh",
         "core/hooks/audit-log.sh",
@@ -110,15 +111,18 @@
         "core/hooks/telemetry-sender.sh",
         "core/hooks/token-scope-guard.sh",
         "core/hooks/tool-attention.js",
+        "core/hooks/truth-gate-guard.sh",
         "core/hooks/validate-completion.sh"
       ]
     },
     "scripts": {
       "status": "imported",
-      "count": 10,
+      "count": 12,
       "actual_present": [
+        "core/scripts/add-fact.sh",
         "core/scripts/budget-mode.sh",
         "core/scripts/code-freeze.sh",
+        "core/scripts/drift-check.sh",
         "core/scripts/generate-coverage-report.sh",
         "core/scripts/hook-health.js",
         "core/scripts/run-e2e-tests.sh",
@@ -189,6 +193,20 @@
       ],
       "review_later": [
         "settings.json"
+      ]
+    },
+    "memory": {
+      "status": "active",
+      "actual_present": [
+        "memory/L1_atomic/SCHEMA.md",
+        "memory/L1_atomic/INDEX.md"
+      ],
+      "add_fact_script": "core/scripts/add-fact.sh",
+      "notes": [
+        "L1 Atomic only. L0/L2/L3 not implemented.",
+        "File-based, no network, no server.",
+        "confidence defaults to unverified — promote manually only.",
+        "scope field mandatory on every fact."
       ]
     },
     "releases": {
