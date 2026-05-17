@@ -3,7 +3,7 @@
 #
 # Usage:
 #   bash core/scripts/search-facts.sh [KEYWORD]
-#   bash core/scripts/search-facts.sh [KEYWORD] [--type TYPE] [--scope SCOPE] [--confidence LEVEL]
+#   bash core/scripts/search-facts.sh [KEYWORD] [--type TYPE] [--scope SCOPE] [--confidence LEVEL] [--tag TAG]
 #   bash core/scripts/search-facts.sh --all
 #   bash core/scripts/search-facts.sh --expired
 #
@@ -14,6 +14,7 @@
 #   --type TYPE       Filter by type: fact | decision | constraint | assumption | observation
 #   --scope SCOPE     Filter by scope: YAMTAM | product | both
 #   --confidence LVL  Filter by confidence: unverified | low | medium | high
+#   --tag TAG         Filter by tag (case-insensitive, partial match)
 #
 # Exit 0 if matches found, exit 1 if no matches.
 
@@ -33,6 +34,7 @@ KEYWORD=""
 FILTER_TYPE=""
 FILTER_SCOPE=""
 FILTER_CONFIDENCE=""
+FILTER_TAG=""
 MODE_ALL=false
 MODE_EXPIRED=false
 
@@ -43,14 +45,15 @@ while [[ $# -gt 0 ]]; do
     --type)       shift; FILTER_TYPE="$1" ;;
     --scope)      shift; FILTER_SCOPE="$1" ;;
     --confidence) shift; FILTER_CONFIDENCE="$1" ;;
+    --tag)        shift; FILTER_TAG="$1" ;;
     --*)          echo "Unknown option: $1" >&2; exit 1 ;;
     *)            KEYWORD="$1" ;;
   esac
   shift
 done
 
-if [[ -z "$KEYWORD" && "$MODE_ALL" == false && "$MODE_EXPIRED" == false ]]; then
-  echo "Usage: search-facts.sh [KEYWORD] [--type TYPE] [--scope SCOPE] [--confidence LEVEL]"
+if [[ -z "$KEYWORD" && -z "$FILTER_TAG" && "$MODE_ALL" == false && "$MODE_EXPIRED" == false ]]; then
+  echo "Usage: search-facts.sh [KEYWORD] [--type TYPE] [--scope SCOPE] [--confidence LEVEL] [--tag TAG]"
   echo "       search-facts.sh --all"
   echo "       search-facts.sh --expired"
   exit 1
@@ -93,6 +96,8 @@ while IFS= read -r -d '' fact_file; do
     | sed 's/^source:\s*//' | tr -d '"' || true)
   fact_expires=$(grep -m1 -oE '^expires_at:\s*[0-9-]+' "$fact_file" 2>/dev/null \
     | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' || true)
+  fact_tags=$(grep -m1 -oE '^tags:\s*.+' "$fact_file" 2>/dev/null \
+    | sed 's/^tags:\s*//' | tr -d '"' || true)
 
   [[ -z "$fact_id" ]] && continue
 
@@ -105,6 +110,11 @@ while IFS= read -r -d '' fact_file; do
   fi
   if [[ -n "$FILTER_CONFIDENCE" && "$fact_confidence" != "$FILTER_CONFIDENCE" ]]; then
     continue
+  fi
+  if [[ -n "$FILTER_TAG" ]]; then
+    if ! printf '%s' "$fact_tags" | grep -qiF "$FILTER_TAG" 2>/dev/null; then
+      continue
+    fi
   fi
 
   # Keyword match (case-insensitive, searches statement)
@@ -134,7 +144,9 @@ while IFS= read -r -d '' fact_file; do
     expired_flag=" (expires $fact_expires)"
   fi
 
-  echo "[$fact_id] $fact_type | $fact_scope | $fact_confidence$expired_flag"
+  tags_display=""
+  [[ -n "$fact_tags" ]] && tags_display=" | tags: $fact_tags"
+  echo "[$fact_id] $fact_type | $fact_scope | $fact_confidence$expired_flag$tags_display"
   echo "  $statement_short"
   echo "  Source: $fact_source | File: $rel_file"
   echo ""

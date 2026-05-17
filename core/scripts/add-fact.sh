@@ -114,6 +114,11 @@ abort_if_quit "${evidence:-}"
 read -rp "Forbidden assumptions (comma-separated) [leave blank]: " raw_forbidden
 abort_if_quit "${raw_forbidden:-}"
 
+# ── Prompt: tags (optional) ───────────────────────────────────────────────────
+echo "Tags: short, lowercase, hyphenated labels (e.g. hook,memory,scope)"
+read -rp "Tags (comma-separated) [leave blank]: " raw_tags
+abort_if_quit "${raw_tags:-}"
+
 # ── Prompt: body (optional) ───────────────────────────────────────────────────
 echo "Body (additional context, multi-line — press Enter twice to finish):"
 body_lines=()
@@ -135,6 +140,16 @@ scope: $scope"
 if [[ -n "$expires_at" ]]; then
   frontmatter="$frontmatter
 expires_at: $expires_at"
+fi
+
+if [[ -n "${raw_tags:-}" ]]; then
+  # Normalise: lowercase, trim spaces around commas, build YAML inline list
+  tags_yaml=$(printf '%s' "$raw_tags" \
+    | tr '[:upper:]' '[:lower:]' \
+    | sed 's/[[:space:]]*,[[:space:]]*/,/g; s/^[[:space:]]*//; s/[[:space:]]*$//' \
+    | awk -F',' 'BEGIN{printf "["} {for(i=1;i<=NF;i++){if(i>1)printf ", "; printf $i}} END{print "]"}')
+  frontmatter="$frontmatter
+tags: $tags_yaml"
 fi
 
 if [[ -n "${evidence:-}" ]]; then

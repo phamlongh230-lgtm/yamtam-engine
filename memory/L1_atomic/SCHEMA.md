@@ -22,10 +22,21 @@ scope:      <YAMTAM | product | both>
 
 ```yaml
 expires_at:            <YYYY-MM-DD — when this fact should be re-verified; omit if perpetual>
+tags:                  [tag1, tag2, tag3]  # short labels for tag-based search; lowercase, hyphenated
 forbidden_assumptions: <list of things that must NOT be inferred from this fact>
 evidence:              <path or quoted excerpt that backs the statement>
 superseded_by:         <id of the fact that replaced this one>
 ```
+
+## Tags
+
+Tags are short, lowercase, hyphenated labels used to group and filter facts.
+Examples: `hook`, `memory`, `scope`, `ci`, `electron`, `auth`, `release`.
+
+- Use `--tag TAG` in `search-facts.sh` to filter by tag.
+- One fact can have multiple tags.
+- Tags are stored in the fact file frontmatter only — not indexed in INDEX.md.
+- Tags must not encode secrets or PII.
 
 ## Confidence Levels
 
