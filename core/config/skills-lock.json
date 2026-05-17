@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "_comment": "Lockfile for skills bundled with this template. Run `.claude/scripts/verify-skills-lock.sh` to detect drift. Regenerate with `.claude/scripts/update-skills-lock.sh` after intentional updates.",
+  "skills": {
+    "gitnexus-cli": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-cli",
+      "localPath": ".claude/skills/gitnexus/gitnexus-cli",
+      "computedHash": "585a4a5ac5f370cc8aea802c0eb8f10fe978e5cc9a23958973e6ffb534325732"
+    },
+    "gitnexus-debugging": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-debugging",
+      "localPath": ".claude/skills/gitnexus/gitnexus-debugging",
+      "computedHash": "d89516cacc0e840779248079a7d90a6c2e6f41e7329b21ba0375b4b5ed2ab4ab"
+    },
+    "gitnexus-exploring": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-exploring",
+      "localPath": ".claude/skills/gitnexus/gitnexus-exploring",
+      "computedHash": "3d2302f47fab391148d9367416fae40edf45f2e64826473b291d8130f5495976"
+    },
+    "gitnexus-guide": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-guide",
+      "localPath": ".claude/skills/gitnexus/gitnexus-guide",
+      "computedHash": "c3108339f625e4234ec189e43c0c46323e6cc0b1b392b311020a5b3a5cfaf186"
+    },
+    "gitnexus-impact-analysis": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-impact-analysis",
+      "localPath": ".claude/skills/gitnexus/gitnexus-impact-analysis",
+      "computedHash": "a3547ae44eac70f37a2ef99aaa6cb4e9ee5c981a29aff09019418cd1d6ca08ed"
+    },
+    "gitnexus-pr-review": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-pr-review",
+      "localPath": ".claude/skills/gitnexus/gitnexus-pr-review",
+      "computedHash": "883cc857f266d065f9553a06d6e40548dc81f43793b50e312abd9663eb930030"
+    },
+    "gitnexus-refactoring": {
+      "source": "abhigyanpatwari/GitNexus",
+      "sourceType": "github",
+      "sourcePath": "gitnexus-claude-plugin/skills/gitnexus-refactoring",
+      "localPath": ".claude/skills/gitnexus/gitnexus-refactoring",
+      "computedHash": "7bca02970355f8176e157ddd6cca11d111949886407cf1382ccaaf1ca309694a"
+    },
+    "karpathy-guidelines": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/karpathy-guidelines",
+      "localPath": ".claude/skills/karpathy-guidelines",
+      "computedHash": "6e22cc54cb02a5e98ae42d06d9d7292db0c1b43894831b32879beb0166b2aea7"
+    }
+  }
+}
