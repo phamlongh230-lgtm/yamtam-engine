@@ -32,12 +32,8 @@ emit_issue() {
 TASKS_DIR="$PROJECT_ROOT/.tasks"
 
 if [[ -d "$TASKS_DIR" ]]; then
-  CUTOFF=$(date -d "7 days ago" +%Y-%m-%d 2>/dev/null \
-    || date -v-7d +%Y-%m-%d 2>/dev/null \
-    || true)
-
   while IFS= read -r -d '' task_file; do
-    rel_path="${task_file#$PROJECT_ROOT/}"
+    rel_path="${task_file#"$PROJECT_ROOT"/}"
 
     # Skip template files
     [[ "$rel_path" == *TEMPLATE* ]] && continue
@@ -140,7 +136,7 @@ if [[ -d "$L1_DIR" ]]; then
     [[ -z "$expires_at" ]] && continue
 
     if [[ "$expires_at" < "$TODAY" ]]; then
-      rel_path="${fact_file#$PROJECT_ROOT/}"
+      rel_path="${fact_file#"$PROJECT_ROOT"/}"
       emit_issue "STALE: $rel_path has expires_at $expires_at (before today $TODAY)"
     fi
   done < <(find "$L1_DIR" -maxdepth 1 -name "*.md" -print0 2>/dev/null)

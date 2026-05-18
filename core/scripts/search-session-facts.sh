@@ -89,7 +89,7 @@ while IFS= read -r -d '' fact_file; do
 
   print_header
 
-  rel_file="${fact_file#$PROJECT_ROOT/}"
+  rel_file="${fact_file#"$PROJECT_ROOT"/}"
   statement_short="${fact_statement:0:80}"
   [[ "${#fact_statement}" -gt 80 ]] && statement_short="${statement_short}…"
 

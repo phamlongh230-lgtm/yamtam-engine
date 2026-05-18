@@ -61,7 +61,7 @@ if [[ ! -f "$TARGET_FILE" ]]; then
 fi
 
 # Normalise relative path for exempt pattern matching
-REL_PATH="${TARGET_FILE#$PROJECT_ROOT/}"
+REL_PATH="${TARGET_FILE#"$PROJECT_ROOT"/}"
 
 EXEMPT_PATTERNS=(
   "docs/handoff/"

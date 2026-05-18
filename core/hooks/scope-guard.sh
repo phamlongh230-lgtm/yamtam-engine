@@ -45,7 +45,7 @@ fi
 # Normalise: strip leading ./ and leading absolute path prefix if inside PROJECT_ROOT
 PROJECT_ROOT="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 TARGET_NORM="${TARGET#./}"
-TARGET_NORM="${TARGET_NORM#$PROJECT_ROOT/}"
+TARGET_NORM="${TARGET_NORM#"$PROJECT_ROOT"/}"
 
 # ── Guarded path patterns ─────────────────────────────────────────────────────
 VIOLATION=""
