@@ -65,6 +65,11 @@ check_skill "receiving-code-review"   "address the feedback"
 check_skill "writing-skills"          "create a skill"
 check_skill "writing-skills"          "write a skill"
 
+# LSP navigation skill (v1.3.16)
+check_skill "lsp-navigation"     "defined"
+check_skill "lsp-navigation"     "references"
+check_skill "lsp-navigation"     "grep"
+
 echo ""
 echo "=== Summary ==="
 echo "Passed: $PASS"

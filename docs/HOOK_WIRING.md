@@ -174,6 +174,16 @@ If you want only the hard safety blocks without advisory hooks:
 
 ---
 
+## Commands
+
+### /hook-review
+- File: `core/commands/hook-review.md`
+- Purpose: Hook lifecycle review — keep/update/deprecate/remove
+- When: Mỗi 3-6 tháng, hoặc sau major Claude Code release
+- Output: Report only — không tự sửa file
+
+---
+
 ## Notes
 
 - All hook paths assume the pack is unzipped into `.claude/` (i.e. hooks live at `.claude/hooks/`).

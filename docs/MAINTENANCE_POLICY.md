@@ -1,0 +1,70 @@
+# YAMTAM ENGINE — Maintenance Policy
+
+> Version: 1.3.16 | Updated: 2026-05-18
+
+## Chu kỳ review định kỳ
+
+**Chu kỳ chuẩn:** 3–6 tháng
+
+Mỗi chu kỳ, chạy `/hook-review` để đánh giá toàn bộ hook còn hiệu quả không.
+Ghi kết quả vào `docs/reviews/YYYY-MM-DD-hook-review.md`.
+
+**Trigger phụ — review sớm hơn nếu:**
+- Major release của Claude Code (version bump đáng kể)
+- Hook báo false positive liên tục (>3 lần trong 1 tuần)
+- Hook im lặng quá lâu (không fire trong 30 ngày dù workflow hoạt động)
+- Anthropic thay đổi hook API hoặc event type
+
+## Vòng đời hook
+
+Mỗi hook ở một trong bốn trạng thái:
+
+| Trạng thái | Ý nghĩa | Hành động |
+|-----------|---------|-----------|
+| `active` | Đang hoạt động đúng, có test | Giữ nguyên |
+| `review` | Nghi ngờ lỗi thời hoặc false positive | Review trong chu kỳ tiếp |
+| `deprecated` | Sẽ bỏ, còn giữ tạm | Đánh dấu header, lên lịch xóa |
+| `removed` | Đã xóa | Ghi vào CHANGELOG, xóa khỏi wiring |
+
+**Quy trình chuyển trạng thái:**
+```
+active → review     : khi có dấu hiệu vấn đề
+review → active     : sau khi fix và test pass
+review → deprecated : quyết định bỏ
+deprecated → removed: sau 1 chu kỳ review
+```
+
+## Rủi ro hook lỗi thời
+
+Hook lỗi thời (stale hook) nguy hiểm hơn không có hook:
+- Chặn workflow hợp lệ (false positive) → AI không làm được việc
+- Im lặng khi lẽ ra phải chặn (false negative) → mất bảo vệ
+- Tốn token mỗi call nhưng không đem lại giá trị
+
+Dấu hiệu hook lỗi thời:
+- Pattern match quá rộng hoặc quá hẹp so với thực tế hiện tại
+- Không có test hoặc test không cover edge case thật
+- Comment header ghi version cũ hơn 2 minor releases
+
+## Quy trình review một chu kỳ
+
+Chạy: `/hook-review`
+
+Lệnh này sẽ:
+1. Liệt kê tất cả hook đang active
+2. Kiểm tra mỗi hook có test không
+3. Kiểm tra version header có đồng bộ không
+4. Gợi ý trạng thái mới dựa trên evidence
+5. Xuất report để human quyết định
+
+Human duyệt report → Claude Code thực thi các thay đổi được chọn.
+
+## Lưu review history
+
+```
+docs/reviews/
+  YYYY-MM-DD-hook-review.md     ← output của /hook-review
+  YYYY-MM-DD-release-notes.md   ← sau major Claude Code release
+```
+
+Không xóa review cũ. Chúng là bằng chứng audit trail.

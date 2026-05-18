@@ -134,6 +134,13 @@
       "sourcePath": ".claude/skills/writing-skills",
       "localPath": ".claude/skills/writing-skills",
       "computedHash": ""
+    },
+    "lsp-navigation": {
+      "source": "local-template",
+      "sourceType": "local",
+      "sourcePath": ".claude/skills/lsp-navigation",
+      "localPath": ".claude/skills/lsp-navigation",
+      "computedHash": ""
     }
   }
 }
