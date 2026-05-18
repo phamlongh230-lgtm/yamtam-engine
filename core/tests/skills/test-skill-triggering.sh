@@ -41,7 +41,7 @@ echo ""
 check_skill "git-lessons"        "past bugs"
 check_skill "gitnexus/gitnexus-guide" "codebase"
 
-# New skills from v1.3.12 Superpowers import
+# New skills from v1.3.12 Superpowers import + v1.3.13 glebis/claude-skills
 check_skill "plan-first"         "implement"
 check_skill "plan-first"         "multi-step"
 check_skill "verify-before-done" "done"
@@ -52,6 +52,8 @@ check_skill "branch-finish"      "merge"
 check_skill "branch-finish"      "done"
 check_skill "worktree-safety"    "experiment"
 check_skill "worktree-safety"    "feature"
+check_skill "tdd"                "red green refactor"
+check_skill "tdd"                "test-driven"
 
 echo ""
 echo "=== Summary ==="
