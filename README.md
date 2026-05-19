@@ -6,7 +6,7 @@ Hook layer, safety guards, and workflow rules for AI assistants
 
 ![YAMTAM ENGINE Overview](docs/yamtam-engine-overview.png)
 
-**Version:** 1.3.16
+**Version:** 1.3.17
 **Status:** Runtime active. 47 hook tests + 25 skill tests passing. Release pack live.
 **Maintainer:** Vũ Văn Tâm
 **Repo type:** Standalone — NOT part of any product repo.
@@ -51,13 +51,13 @@ yamtam-engine/
 ├── .gitignore
 │
 ├── core/                  ← runtime assets
-│   ├── agents/            ← 19 agent definitions
-│   ├── commands/          ← 33 slash commands (incl. /verify, /memory, /fact-check, /diff-review, /checkpoint, /handoff, /hook-review)
+│   ├── agents/            ← 42 agent definitions (incl. quality-testing x5, infrastructure x4, security-team)
+│   ├── commands/          ← 74 slash commands (incl. /security-audit, /performance-audit, /write-tests, /ultra-think, /sprint-planning)
 │   ├── hooks/             ← 24 hooks (.sh + .js)
 │   ├── scripts/           ← 20 utility scripts
 │   ├── rules/             ← 4 coding rules (incl. subagent-policy)
 │   ├── templates/         ← 11 project templates
-│   ├── skills/            ← 20 skill definitions (gitnexus x7, karpathy, git-lessons, plan-first, verify-before-done, debug-protocol, branch-finish, worktree-safety, tdd, executing-plans, requesting-code-review, receiving-code-review, writing-skills, lsp-navigation)
+│   ├── skills/            ← 24 skill definitions (gitnexus x7, karpathy, git-lessons, plan-first, verify-before-done, debug-protocol, branch-finish, worktree-safety, tdd, executing-plans, requesting-code-review, receiving-code-review, writing-skills, lsp-navigation, audit-env-variables, remove-dead-code, file-watcher, setup-agent-tail)
 │   ├── config/            ← 6 config JSON files
 │   └── tests/
 │       ├── hooks/         ← run-hook-tests.sh + test-audit-chain.sh (47 test cases)
@@ -94,7 +94,7 @@ yamtam-engine/
 │   └── security-advisories/       ← GHSA template + filed advisories
 │
 └── releases/              ← versioned packs
-    ├── yamtam-engine-v1.3.16-fixed.zip  ← latest
+    ├── yamtam-engine-v1.3.17-fixed.zip  ← latest
     └── yamtam-engine-latest.zip         ← symlink → latest
 ```
 
@@ -104,13 +104,13 @@ yamtam-engine/
 
 | Path | Count |
 |---|---|
-| `core/agents/` | 19 agents |
-| `core/commands/` | 33 commands |
+| `core/agents/` | 42 agents |
+| `core/commands/` | 74 commands |
 | `core/hooks/` | 24 hooks |
 | `core/scripts/` | 20 scripts |
 | `core/rules/` | 4 rules |
 | `core/templates/` | 11 templates |
-| `core/skills/` | 20 skills |
+| `core/skills/` | 24 skills |
 | `core/config/` | 6 config files |
 | `core/tests/hooks/` | 47 test cases |
 | `core/tests/skills/` | 25 skill trigger tests |
@@ -165,7 +165,7 @@ bash core/scripts/build-release.sh
 
 GitHub Actions auto-releases on semver tag push:
 ```bash
-git tag v1.3.16 && git push origin v1.3.16
+git tag v1.3.17 && git push origin v1.3.17
 ```
 
 ---

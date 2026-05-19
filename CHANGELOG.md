@@ -8,6 +8,43 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.3.17 — qdhenry/Claude-Command-Suite Import
+*2026-05-19*
+
+### New Agents (+23)
+- **Root agents:** `architecture-auditor`, `code-auditor`, `dependency-analyzer`, `performance-auditor`, `integration-manager`, `project-architect`, `release-manager`, `strategic-analyst`, `task-commit-manager`, `task-decomposer`, `task-orchestrator`, `test-engineer`, `agent-organizer`
+- **`quality-testing/`:** `code-reviewer`, `debugger`, `qa-expert`, `test-automator`, `architect-review`
+- **`security-team/`:** `security-auditor`
+- **`infrastructure/`:** `cloud-architect`, `deployment-engineer`, `incident-responder`, `performance-engineer`
+- Source: qdhenry/Claude-Command-Suite. Total agents: 19 → 42.
+
+### New Commands (+41)
+- **Security (×4):** `/security-audit`, `/security-hardening`, `/dependency-audit`, `/add-authentication-system`
+- **Dev (×11):** `/code-review`, `/debug-error`, `/refactor-code`, `/ultra-think`, `/fix-issue`, `/explain-code`, `/architecture-scenario-explorer`, `/remove-dead-code`, `/clean-branches`, `/prime`, `/incremental-feature-build`
+- **Test (×4):** `/write-tests`, `/generate-test-cases`, `/test-coverage`, `/setup-comprehensive-testing`
+- **Performance (×4):** `/performance-audit`, `/optimize-build`, `/optimize-bundle-size`, `/optimize-database-performance`
+- **Docs (×5):** `/create-architecture-documentation`, `/doc-api`, `/generate-api-documentation`, `/troubleshooting-guide`, `/create-onboarding-guide`
+- **Team (×6):** `/architecture-review`, `/sprint-planning`, `/standup-report`, `/estimate-assistant`, `/retrospective-analyzer`, `/issue-triage`
+- **Project (×3):** `/create-feature`, `/project-health-check`, `/add-package`
+- **Deploy (×3):** `/prepare-release`, `/ci-setup`, `/containerize-application`
+- **Context (×1):** `/optimize-prompt`
+- Total commands: 33 → 74.
+
+### New Skills (+4)
+- `audit-env-variables` — audit environment variable usage and security patterns
+- `remove-dead-code` — detect and safely remove unused code with multi-agent coordination
+- `file-watcher` — watch files for changes and trigger actions
+- `setup-agent-tail` — tail and monitor agent activity logs
+- Total skills: 20 → 24.
+
+### MANIFEST
+- Version 1.3.16 → 1.3.17; agents 19→42, commands 33→74, skills 20→24.
+
+### Release
+- `releases/yamtam-engine-v1.3.17-fixed.zip` — 254 files, 452K.
+
+---
+
 ## v1.3.16 — Claude Code Harness Integration
 *2026-05-19*
 
