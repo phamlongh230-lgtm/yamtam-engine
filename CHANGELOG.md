@@ -8,6 +8,94 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.3.16 — Claude Code Harness Integration
+*2026-05-19*
+
+### New Docs
+- `docs/MAINTENANCE_POLICY.md` — hook lifecycle policy: 4 states (active/review/deprecated/removed), trigger conditions for early review, stale hook risk analysis, review history in `docs/reviews/`
+- `docs/CLAUDE_MD_GUIDE.md` — CLAUDE.md architecture guide: 4-tier layering (root → subdirectory → subdirectory init → per-dir test scope), checklist before creating new CLAUDE.md
+
+### New Rules
+- `core/rules/subagent-policy.md` — subagent read-only policy: permission table (main agent vs subagent), dispatch format, report format, red flag indicators
+
+### New Skills
+- `core/skills/lsp-navigation/SKILL.md` — LSP-first symbol navigation: go-to-definition + find-references before grep; grep fallback guidelines to minimize context budget usage
+
+### New Commands
+- `core/commands/hook-review.md` — `/hook-review`: hook lifecycle review (read-only report); checks version header, test coverage, execute bit, last touched, bypass indicators, overlap; human-gated execution
+
+### New Tests
+- `core/tests/commands/test-hook-review-smoke.sh` — 6 smoke tests verifying hook-review.md file structure and format
+- `core/tests/skills/test-skill-triggering.sh` — +3 lsp-navigation trigger cases; total now 25 tests
+
+### Updated Docs
+- `docs/HOOK_WIRING.md` — added `/hook-review` entry under Commands section
+
+### MANIFEST
+- Version 1.3.15 → 1.3.16; commands 32→33, skills 19→20, rules 3→4; 6 new file entries
+
+---
+
+## v1.3.15 — Executing-Plans, Code Review Skills
+*2026-05-18*
+
+### New Skills
+- `core/skills/executing-plans/SKILL.md` — structured execution of approved plans; gate checks before each step
+- `core/skills/requesting-code-review/SKILL.md` — how to request code review with context and scope
+- `core/skills/receiving-code-review/SKILL.md` — how to receive and address review comments
+- `core/skills/writing-skills/SKILL.md` — how to author new YAMTAM skill files correctly
+
+### Tests
+- +8 skill trigger tests (4 new skills × 2 phrases each) → 22 total
+
+### Release
+- `releases/yamtam-engine-v1.3.15-fixed.zip` — 173 files, 260K
+
+---
+
+## v1.3.14 — Checkpoint + Handoff Commands
+*2026-05-18*
+
+### New Commands
+- `/checkpoint` — save session state mid-task; structured snapshot of current progress, blockers, next steps
+- `/handoff` — generate handoff note for context-window boundary; structured for clean agent pickup
+
+### MANIFEST
+- Version 1.3.13 → 1.3.14; commands 30→32 (+checkpoint, +handoff)
+
+---
+
+## v1.3.13 — TDD Skill Import
+*2026-05-18*
+
+### New Skills
+- `core/skills/tdd/SKILL.md` — RED → GREEN → REFACTOR cycle; multi-agent context isolation; external test scripts removed; integrated with verify-before-done and debug-protocol skills
+- Source: adapted from glebis/claude-skills (MIT License)
+
+### MANIFEST
+- Version 1.3.12 → 1.3.13; skills 14→15 (+tdd)
+
+---
+
+## v1.3.12 — Superpowers Skill Import
+*2026-05-18*
+
+### New Skills
+- `core/skills/plan-first/SKILL.md` — plan before implement; multi-step task gate
+- `core/skills/verify-before-done/SKILL.md` — verify claims before reporting done/fixed
+- `core/skills/debug-protocol/SKILL.md` — structured debug loop: reproduce → isolate → fix → verify
+- `core/skills/branch-finish/SKILL.md` — branch completion checklist before merge
+- `core/skills/worktree-safety/SKILL.md` — safe experiment isolation via git worktree
+- Source: adapted from obra/superpowers v5.1.0 (MIT License); content rewritten in YAMTAM style
+
+### New Commands
+- `/diff-review` — review staged diff before commit; checks scope, test coverage, doc drift
+
+### MANIFEST
+- Version 1.3.11 → 1.3.12; skills 9→14 (+5), commands 26→27 (+diff-review)
+
+---
+
 ## v1.3.11-fire — FIRE List 1–5: Audit Hardening, Fact-Check, Session Trust, Tool Router, Skill Loop
 *2026-05-18*
 
