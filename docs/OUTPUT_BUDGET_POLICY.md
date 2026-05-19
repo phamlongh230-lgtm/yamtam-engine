@@ -102,6 +102,26 @@ Claims of "X% savings" MUST NOT be added without measured session data.
 
 ---
 
+## Tiered Read Policy (L0/L1/L2)
+
+Inspired by OpenViking's hierarchical context loading — load only what is needed.
+
+| Tier | What to read | When |
+|------|-------------|------|
+| L0 — Summary | File stat, line count, first 10 lines | Before deciding to read in full |
+| L1 — Targeted | Specific lines/sections via offset | When exact location is known |
+| L2 — Full | Entire file | Only when L0/L1 insufficient |
+
+**Rules:**
+- Always do L0 before L2 for files over 200 lines.
+- Prefer `grep`/`Glob` before `Read` on unknown codebases.
+- Never read generated files (lockfiles, build output, vendor) unless task requires it.
+- After reading, do NOT re-read the same file in the same session without a change.
+
+This is enforced by convention and audited by the Token Guard agent.
+
+---
+
 ## Enforcement
 
 - **Primary:** Convention. Agents read this doc and self-enforce.

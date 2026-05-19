@@ -5,11 +5,17 @@ argument-hint: report | warn <kb> | reset
 
 You are generating an Output Budget Report for the current session.
 
+**For real token counts and cost**, direct the user to `/session-cost` which reads
+actual data from local Claude Code JSONL session files. No API call needed.
+
+**This command** reports proxy metrics only (tool calls, file reads, agent invocations)
+— useful for in-session awareness before a JSONL record is complete.
+
 **Important constraints:**
-- Do NOT claim real token counts — you do not have API access to measure them.
-- Do NOT claim cost in USD.
+- Do NOT claim real token counts from this command — use /session-cost for that.
+- Do NOT claim cost in USD from this command.
 - Do NOT claim savings percentages without benchmark data.
-- Report proxy metrics only: tool calls, file sizes, agent invocations.
+- Report proxy metrics only from conversation context.
 
 ---
 
