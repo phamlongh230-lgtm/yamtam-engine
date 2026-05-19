@@ -8,7 +8,7 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
-## v1.3.21 — Conflict Resolution Policy
+## v1.3.21 — Conflict Resolution Policy + Governance Hardening
 *2026-05-19*
 
 ### New Rules
@@ -21,6 +21,17 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 - **Conflict log:** Format chuẩn để audit trail mọi quyết định resolve
 - **Red flags:** Bắt buộc escalate với schema migration, public API, xóa file, thiếu evidence
 - **Phòng ngừa:** Scope subagent không overlap từ đầu — tốt hơn giải quyết sau
+
+### Updated Docs (Governance Hardening)
+**`docs/MAINTENANCE_POLICY.md`** — Thêm tiêu chuẩn metadata bắt buộc cho mọi hook:
+```bash
+# Version: x.y.z | Status: [active|review|deprecated]
+# Description: ... | Last Reviewed: YYYY-MM-DD
+```
+Thiếu header → `/hook-review` tự động flag `NEEDS ATTENTION`.
+
+**`core/rules/subagent-policy.md`** — Thêm section `Evidence & Reasoning` vào report format:
+Subagent phải giải thích *tại sao* đưa ra kết luận và liệt kê những gì đã check nhưng không có vấn đề — main agent có đủ data để quyết định.
 
 ### MANIFEST
 - Version 1.3.20 → 1.3.21; rules 4 → 5.
