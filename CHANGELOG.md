@@ -8,6 +8,53 @@ All notable changes to YAMTAM ENGINE release packs are documented here.
 
 ---
 
+## v1.3.18 — rohitg00/awesome-claude-code-toolkit + affaan-m/everything-claude-code Import
+*2026-05-19*
+
+### New Agents (+41, total 42 → 83)
+- **`core-development/`:** `api-designer`, `api-gateway-engineer`, `event-driven-architect`, `fullstack-engineer`, `graphql-architect`, `microservices-architect`, `monorepo-architect`, `websocket-engineer`
+- **`quality-assurance/`:** `accessibility-specialist`, `chaos-engineer`, `compliance-auditor`, `penetration-tester`, `qa-automation`, `test-architect`
+- **`infrastructure/`:** `database-admin`, `devops-engineer`, `kubernetes-specialist`, `network-engineer`, `platform-engineer`, `security-engineer`, `sre-engineer`, `terraform-engineer`
+- **`business/`:** `business-analyst`, `scrum-master`, `ux-researcher`, `technical-writer`
+- **`data-ai/`:** `ai-engineer`, `llm-architect`, `ml-engineer`, `data-scientist`, `data-engineer`, `nlp-engineer`
+- **`orchestration/`:** `multi-agent-coordinator`, `knowledge-synthesizer`, `workflow-director`
+- **`dev-experience/`:** `mcp-developer`, `refactoring-specialist`, `build-engineer`, `git-workflow-manager`
+- **`research/`:** `research-analyst`, `competitive-analyst`
+- Source: rohitg00/awesome-claude-code-toolkit
+
+### New Commands (+22, total 74 → 96)
+- **Git (×5):** `/git-commit`, `/git-pr-create`, `/git-pr-review`, `/git-worktree`, `/git-changelog`
+- **DevOps (×3):** `/dockerfile`, `/k8s-manifest`, `/monitor`
+- **Architecture (×4):** `/arch-adr`, `/arch-diagram`, `/arch-plan`, `/arch-design-review`
+- **Refactoring (×4):** `/refactor-cleanup`, `/refactor-extract`, `/refactor-rename`, `/refactor-simplify`
+- **Security (×2):** `/secrets-scan`, `/csp`
+- **Testing (×3):** `/snapshot-test`, `/integration-test`, `/test-fix`
+- **Workflow (×1):** `/wrap-up`
+- Source: rohitg00/awesome-claude-code-toolkit
+
+### New Skills (+12, total 24 → 36)
+- `api-design` — REST/GraphQL API design patterns
+- `backend-patterns` — backend architecture and patterns
+- `coding-standards` — enforce coding standards and conventions
+- `deep-research` — comprehensive multi-source research workflow
+- `documentation-lookup` — efficient documentation search and retrieval
+- `e2e-testing` — end-to-end test authoring workflow
+- `security-review` — security audit and vulnerability review
+- `tdd-workflow` — test-driven development workflow (step-by-step)
+- `verification-loop` — iterative verification before completion
+- `agent-introspection-debugging` — debug agent behavior and reasoning
+- `frontend-patterns` — frontend architecture and UI patterns
+- `mcp-server-patterns` — MCP server design and implementation patterns
+- Source: affaan-m/everything-claude-code
+
+### MANIFEST
+- Version 1.3.17 → 1.3.18; agents 42→83, commands 74→96, skills 24→36.
+
+### Release
+- `releases/yamtam-engine-v1.3.18-fixed.zip` — 348 files.
+
+---
+
 ## v1.3.17 — qdhenry/Claude-Command-Suite Import
 *2026-05-19*
 
