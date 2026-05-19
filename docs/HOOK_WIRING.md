@@ -76,6 +76,20 @@ create or merge this into your target project's `.claude/settings.json`:
           { "type": "command", "command": "bash .claude/hooks/auto-kill-stuck-tasks.sh" }
         ]
       }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/session-bootstrap.sh" }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          { "type": "command", "command": "bash .claude/hooks/permission-auto-approve.sh" }
+        ]
+      }
     ]
   }
 }
@@ -140,6 +154,18 @@ create or merge this into your target project's `.claude/settings.json`:
 | `validate-completion.sh` | Warns if implementation changed but docs/tests not updated | — |
 | `auto-qa-trigger.sh` | Signals QA agent when implementation files change | — |
 | `auto-kill-stuck-tasks.sh` | Kills tasks exceeding timeout | — |
+
+### UserPromptSubmit — Before Claude receives prompt
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `session-bootstrap.sh` | Injects matching L1 facts (max 5), session trust score (if <80), Budget Mode status, L2 fact count into Claude context | `YAMTAM_BOOTSTRAP_BYPASS=1` |
+
+### PermissionRequest — When Claude requests permission
+
+| Hook | Action | Bypass |
+|------|--------|--------|
+| `permission-auto-approve.sh` | Auto-approves Read/Glob/Grep/LS tools and safe read-only Bash commands; passes through everything else | `YAMTAM_PERMISSION_BYPASS=1` |
 
 ---
 

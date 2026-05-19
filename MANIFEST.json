@@ -7,7 +7,7 @@
   "description": "Personal agent operating system. Hook layer + safety guards + workflow rules for AI assistants.",
   "status": "runtime-imported",
   "import_notes": [
-    "v1.3.26 — count sync: commands 152→155 (added output-budget, output-raw, session-cost + 11 previously unlisted v1.3.24 commands), scripts 20→21 (session-cost.sh), templates 11→10 (removed .tasks/TASK_TEMPLATE.md from list), rules actual_present completed to all 11 files.",
+    "v1.3.26 — count sync + new hooks + new skill: commands 152→155 (output-budget, output-raw, session-cost + 11 unlisted v1.3.24 commands), scripts 20→21 (session-cost.sh), hooks 24→26 (session-bootstrap.sh UserPromptSubmit, permission-auto-approve.sh PermissionRequest), skills 64→65 (l1-promote), templates 11→10, rules actual_present completed to all 11 files. Output Budget Layer: docs/OUTPUT_BUDGET_POLICY.md, docs/OUTPUT_BUDGET_INTEGRATION.md, session-bootstrap injects L1 facts into every prompt.",
     "v1.3.25-clean — metadata sync: plugin.json + marketplace.json counts (87 agents/152 commands/64 skills/123 checks/58 skill triggers), MANIFEST releases index corrected (latest → v1.3.24, files list fixed), docs version bump (all → 1.3.25-clean), run-hook-tests.sh banner v1.3.15 → v1.3.25.",
     "v1.3.24 — Phase 9 import from sangrokjung/claude-forge (MIT): 4 agents (build-error-resolver, verify-agent, planner, database-reviewer), 11 commands (handoff-verify, commit-push-pr, refactor-clean, sync-docs, quick-commit, worktree-start, worktree-cleanup, eval, suggest-automation, learn, next-task), 13 skills (team-orchestrator, strategic-compact, session-wrap, verification-engine, skill-factory, security-compliance, security-pipeline, stride-analysis-patterns, debugging-strategies, extract-errors, build-system, cache-components, verify-implementation), 6 rules (golden-principles, verification, security, git-workflow-v2, testing, agents-v2). Phase 9 also: 2 karanb192-inspired skills (hook-block-commands, hook-protect-secrets).",
     "v1.3.23-clean — metadata/docs sync: plugin.json + marketplace.json counts (83 agents/141 commands/49 skills/108 checks), docs version bump (ARCHITECTURE/HOOK_WIRING/MAINTENANCE_POLICY/CLAUDE_MD_GUIDE → 1.3.23-clean), README fix (42→83 agents), verify-skills-lock.sh + update-skills-lock.sh path fallback (scaffold vs installed), release zip policy added to MAINTENANCE_POLICY.",
@@ -305,7 +305,7 @@
     },
     "hooks": {
       "status": "imported",
-      "count": 24,
+      "count": 26,
       "actual_present": [
         "core/hooks/api-destruct-guard.sh",
         "core/hooks/audit-log.sh",
@@ -324,7 +324,9 @@
         "core/hooks/gitnexus-hook.js",
         "core/hooks/guard-destructive.sh",
         "core/hooks/log-agent.sh",
+        "core/hooks/permission-auto-approve.sh",
         "core/hooks/rbac-guard.sh",
+        "core/hooks/session-bootstrap.sh",
         "core/hooks/telemetry-sender.sh",
         "core/hooks/token-scope-guard.sh",
         "core/hooks/tool-attention.js",
@@ -405,7 +407,7 @@
     },
     "skills": {
       "status": "imported",
-      "count": 64,
+      "count": 65,
       "actual_present": [
         "core/skills/git-lessons/SKILL.md",
         "core/skills/gitnexus/gitnexus-cli/SKILL.md",
@@ -455,7 +457,8 @@
         "core/skills/pulse/SKILL.md",
         "core/skills/research/SKILL.md",
         "core/skills/session-context/SKILL.md",
-        "core/skills/pre-compact-backup/SKILL.md"
+        "core/skills/pre-compact-backup/SKILL.md",
+        "core/skills/l1-promote/SKILL.md"
       ]
     },
     "config": {
