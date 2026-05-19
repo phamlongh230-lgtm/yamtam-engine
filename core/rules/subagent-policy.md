@@ -53,6 +53,10 @@ Subagent trả về plain text report, không phải file edit:
 - [finding 1]
 - [finding 2]
 
+**Evidence & Reasoning:**
+- Tại sao bạn đưa ra kết luận này? (Trích dẫn logic hoặc pattern tìm thấy)
+- Các file/symbol đã kiểm tra nhưng không có vấn đề.
+
 **Recommended actions for main agent:**
 - [action 1] — tại [file:line]
 - [action 2] — tại [file:line]

@@ -15,6 +15,18 @@ Ghi kết quả vào `docs/reviews/YYYY-MM-DD-hook-review.md`.
 - Hook im lặng quá lâu (không fire trong 30 ngày dù workflow hoạt động)
 - Anthropic thay đổi hook API hoặc event type
 
+## Tiêu chuẩn Metadata cho Hook
+Mọi file hook trong `core/hooks/*.sh` phải bắt đầu bằng header sau:
+```bash
+#!/bin/bash
+# YAMTAM ENGINE Hook
+# Version: x.y.z
+# Status: [active|review|deprecated]
+# Description: [Mô tả ngắn gọn chức năng]
+# Last Reviewed: YYYY-MM-DD
+```
+Việc thiếu header này sẽ khiến `/hook-review` đánh dấu hook là `NEEDS ATTENTION`.
+
 ## Vòng đời hook
 
 Mỗi hook ở một trong bốn trạng thái:
