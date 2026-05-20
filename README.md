@@ -94,7 +94,9 @@ yamtam-engine/
 │   ├── RUNBOOK.md            ← apply YAMTAM to any project
 │   ├── AGENT_BEHAVIOR.md     ← good vs bad behavior examples
 │   ├── AGENT_INCIDENT_DEFENSE.md
-│   └── AUDIT_HARDENING.md    ← hash-chain audit log design
+│   ├── AUDIT_HARDENING.md    ← hash-chain audit log design
+│   ├── OUTPUT_BUDGET_POLICY.md   ← token output budget rules
+│   └── OUTPUT_BUDGET_INTEGRATION.md ← wiring output budget layer
 │
 ├── .out-of-scope/         ← features deliberately not built (5 boundary docs)
 ├── .claude-plugin/        ← plugin manifest for /plugin install
@@ -105,7 +107,7 @@ yamtam-engine/
 │   └── security-advisories/       ← GHSA template + filed advisories
 │
 └── releases/              ← versioned packs
-    ├── yamtam-engine-v1.3.26.zip        ← latest
+    ├── yamtam-engine-v1.3.26-fixed.zip  ← latest
     └── yamtam-engine-latest.zip         ← symlink → latest
 ```
 
